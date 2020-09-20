@@ -1,0 +1,16 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	font-family: Arial;
+}
+
+body{
+	background-color: #2a2a2a
+}
+
+#my_canvas{
+	border: 1px solid #fa2f;
+	margin: 15px calc(50vw - 241px);
+}
