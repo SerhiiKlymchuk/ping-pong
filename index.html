@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 	<script defer type="text/javascript" src="script.js"></script>
 	<title>It's ping pong</title>
 </head>
+
 <body>
-	<canvas id="my_canvas" width="480" height="320"></canvas>
+	<div class="container">
+		<canvas id="my_canvas" width="480" height="320"></canvas>
+
+		<div id="score">
+			<p class="cpu-score">0</p>:
+			<p class="player-score">0</p>
+		</div>
+
+		<div class="intro">
+			<p>P1</p>
+			<button id="start_btn">Let's play!</button>
+			<p>P2</p>
+		</div>
+	</div>
 </body>
+
 </html>

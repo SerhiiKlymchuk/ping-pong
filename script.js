@@ -1,8 +1,9 @@
 let myCanvas = document.querySelector('#my_canvas');
+let container = document.querySelector('.container');
 let ctx = myCanvas.getContext("2d");
 let btnMove = document.querySelector('#btn_move');
-
-let w = 10, h = 50, step=17, ballStepX = 3, ballStepY=1;
+let startBtn = document.querySelector("#start_btn");
+let w = 10, h = 50, step=17, ballStepX = 4, ballStepY=0;
 let scoreLeft = 0, scoreRight = 0;
 
 let stick1 = {
@@ -37,9 +38,7 @@ ctx.fillStyle = ball.c;
 ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
 ctx.fill();
 
-ctx.textAlign = "center";
-ctx.font = "18px Arial";
-ctx.fillText(`${scoreLeft} : ${scoreRight}` , 240, 25);
+
 
 //move sticks
 document.onkeydown = function(e){
@@ -50,37 +49,49 @@ document.onkeydown = function(e){
 	e.key == "w" ? moveStick(stick1, -step): null;
 }
 
+startBtn.onclick = function(){
+	let score = document.querySelector("#score");	
+	setTimeout(()=>startGame(),800)
+
+	this.parentElement.style.display  = 'none';
+	score.style.filter = "none";
+	myCanvas.style.filter = "none";
+	
+};
+
 //move ball
-setInterval(()=>{
-	ctx.beginPath();
-	ctx.fillStyle = '#2a2a2a';
-	ctx.arc(ball.x, ball.y, ball.r+1, 0, Math.PI*2);
-	ctx.fill();
+function startGame(){
+	let moveBall = setInterval(()=>{
+		ctx.beginPath();
+		ctx.fillStyle = '#2a2a2a';
+		ctx.arc(ball.x, ball.y, ball.r+1, 0, Math.PI*2);
+		ctx.fill();
 
-	if(ball.x + 15 >= stick2.x || ball.x - 15 - w <= stick1.x ){
-		if(ball.y >= stick2.y - ball.r && ball.y <= stick2.y + h + ball.r && ball.x > 260){
-			changeBallDirection(stick2);
+		if(ball.x + 15 >= stick2.x || ball.x - 15 - w <= stick1.x ){
+			if(ball.y >= stick2.y - ball.r && ball.y <= stick2.y + h + ball.r && ball.x > 260){
+				changeBallDirection(stick2);
+			}
+			else if(ball.y >= stick1.y - ball.r && ball.y <= stick1.y + h + ball.r && ball.x < 260){
+				changeBallDirection(stick1);
+			}
+			else{
+				changeScoreRestartBall(moveBall);	
+			}
 		}
-		else if(ball.y >= stick1.y - ball.r && ball.y <= stick1.y + h + ball.r && ball.x < 260){
-			changeBallDirection(stick1);
+
+		if(ball.y - ball.r <=0 || ball.y + ball.r >= 320){
+			ballStepY = -ballStepY;
 		}
-		else{
-			changeScoreRestartBall();
-		}
-	}
 
-	if(ball.y - ball.r <=0 || ball.y + ball.r >= 320){
-		ballStepY = -ballStepY;
-	}
+		ball.x += ballStepX;
+		ball.y += ballStepY;
 
-	ball.x += ballStepX;
-	ball.y += ballStepY;
-
-	ctx.beginPath();
-	ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
-	ctx.fillStyle = ball.c;
-	ctx.fill();
-}, 13)
+		ctx.beginPath();
+		ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
+		ctx.fillStyle = ball.c;
+		ctx.fill();
+	}, 13)
+}
 
 function moveStick(s, signStep){
 	ctx.clearRect(s.x, s.y, w, h);
@@ -104,16 +115,22 @@ function changeBallDirection(s){
 	}
 }
 
-function changeScoreRestartBall(){
-	ctx.fillRect(210, 0 , 60 , 30);
+function changeScoreRestartBall(interval){
+	let cpuScore = document.querySelector(".cpu-score");
+	let playerScore = document.querySelector(".player-score");
+
 	ball.x > 260 ? scoreLeft ++ : scoreRight ++;
+	cpuScore.innerText = scoreLeft;
+	playerScore.innerText = scoreRight;
 
-	ctx.fillStyle = "#fff";
-	ctx.fillText(`${scoreLeft} : ${scoreRight}` , 240, 25);
+	clearInterval(interval);
+	ball.x= myCanvas.offsetWidth / 2 - ball.r / 2;
+	ball.y = myCanvas.offsetHeight / 2;	
 
-	ball.x= 260;
-	ball.y = 160;
-
+	setTimeout(()=>{
+		startGame()
+	}, 2000)
+	
 	ballStepX = -ballStepX;
 	ballStepY = 0;
 }

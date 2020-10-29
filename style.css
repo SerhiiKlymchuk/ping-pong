@@ -10,7 +10,74 @@ body{
 	background-color: #2a2a2a
 }
 
+.container{
+	position: relative;
+}
+
+.intro{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.intro p{
+	font-size: 32px;
+	color: #EDDFDF;
+	font-family: 'Open Sans', sans-serif;
+}
 #my_canvas{
 	border: 1px solid #fa2f;
 	margin: 15px calc(50vw - 241px);
+	filter: blur(5px);
+	transition: .4s;
+}
+
+#score{
+	width: 40px;
+	height: 25px;
+	position: absolute;
+	left: 50%;
+	top: 10%;
+	transform: translate(-50%, -50%);
+	
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	color: #fff;
+	font-weight: bold;
+	font-size: 20px;
+	filter: blur(5px);
+	transition: .3s;
+}
+
+#start_btn{
+	width: 140px;
+	height: 45px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border: 0px;
+	border-radius: 3px;
+	cursor: pointer;
+	background: #8F4751;
+	text-transform: uppercase;
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: .1em;
+	color: #fff;
+
+	transition: .3s ease;
+}
+
+#start_btn:hover{
+	width: 125px;
+	height: 37px;
+
+	background: #EDDFDF;
+	color: #8F4751;
+	transition: .3s ease;
 }
